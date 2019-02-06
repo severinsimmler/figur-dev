@@ -60,7 +60,7 @@ class Document:
             if index in entities:
                 document[index] = (token, entities[index])
             else:
-                document[index] = (token, "word")
+                document[index] = (token, "")
         return document
 
     @property
