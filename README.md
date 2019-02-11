@@ -1,2 +1,7 @@
-# named-entity-recognition
-Named Entity Recognition (NER) for literary texts.
+# Named entity recognition for literary texts
+
+`figur` is a simple framework. TODO
+
+## Installation
+
+## Usage
