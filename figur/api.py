@@ -7,7 +7,7 @@ from flair.hyperparameter.param_selection import SearchSpace, Parameter
 
 
 
-def train(directory: str, optimize: bool = True, features: list,
+def train(directory: str, optimal: bool = True, features: list,
           metric: str = "micro-average f1-score", learning_rate: float = .1,
           mini_batch_size: int = 32, epochs: int = 10, hidden_size: int = 256,
           crf: bool = True, rnn: bool = True, rnn_layers: bool = True,
@@ -17,6 +17,7 @@ def train(directory: str, optimize: bool = True, features: list,
 
     Parameters:
         directory:
+        optimal:
         features:
         metric:
         learning_rate:
@@ -35,13 +36,17 @@ def train(directory: str, optimize: bool = True, features: list,
     """
     # 1. Export to a single corpus file:
     corpus.export(directory, filepath="corpus.tsv")
+
     # 2. Split into train–dev–test data sets:
     corpus.split("corpus.tsv")
+
     # Optional: Hyperparameter optimization:
-    if optimize:
+    if optimal:
         optimize(".")
+        # TODO: parse output file and set optimal parameters
+
     # 3. Train model:
-    trainer.train("figur-recognition/model",
+    trainer.train(Path("figur-recognition", "model"),
                   features=features,
                   metric=metric,
                   learning_rate=learning_rate,
@@ -54,52 +59,59 @@ def train(directory: str, optimize: bool = True, features: list,
                   dropout=dropout,
                   word_dropout=word_dropout,
                   locked_dropout=locked_dropout)
-    # 4. TODO: Summarize performance:
-    #
-    # 5. Load the best model:
+
+    # 4. Load and return the best model:
     path = Path("figur-model", "best-model.pt")
-    model = Model(path)
-    # 6. Return the model:
-    return model
+    return Model(path)
 
 
 def optimize(directory):
+    """Hyperparameter optimization.
+    """
+    # 1. Load corpus:
     data = corpus.load(directory)
-    # Define search space:
-    search_space = SearchSpace()
-    # Collect embeddings:
+
+    # 2. Define search space:
+    space = SearchSpace()
+
+    # 3. Collect embeddings:
     fasttext = trainer.utils.collect_features(["fasttext"])
     bert = trainer.utils.collect_features(["bert"])
     flair = trainer.utils.collect_features(["flair-forward", "flair-backward"])
-    # Add to search space:
-    search_space.add(Parameter.EMBEDDINGS, hp.choice, options=[
-        fasttext,
-        bert,
-        flair
-    ])
-    # Add other parameters:
-    search_space.add(Parameter.HIDDEN_SIZE, hp.choice, options=[32, 64, 128])
-    search_space.add(Parameter.RNN_LAYERS, hp.choice, options=[1, 2])
-    search_space.add(Parameter.DROPOUT, hp.uniform, low=0.0, high=0.5)
-    search_space.add(Parameter.LEARNING_RATE, hp.choice, options=[0.05, 0.1, 0.15, 0.2])
-    search_space.add(Parameter.MINI_BATCH_SIZE, hp.choice, options=[8, 16, 32])
-    # Create parameter selector:
-    param_selector = SequenceTaggerParamSelector(
-        corpus=data,
-        tag_type="ner",
-        base_path="figur-recognition/optimization",
-        max_epochs=10,
-        training_runs=3)
-    # Start the optimization:
-    param_selector.optimize(search_space, max_evals=100)
+
+    # 4. Add to search space:
+    space.add(Parameter.EMBEDDINGS,
+              hp.choice,
+              options=[fasttext, bert, flair])
+
+    # 5. Add other parameter search spaces:
+    space.add(Parameter.HIDDEN_SIZE, hp.choice, options=[32, 64, 128])
+    space.add(Parameter.RNN_LAYERS, hp.choice, options=[1, 2])
+    space.add(Parameter.DROPOUT, hp.uniform, low=0.0, high=0.5)
+    space.add(Parameter.LEARNING_RATE, hp.choice, options=[0.05, 0.1, 0.15, 0.2])
+    space.add(Parameter.MINI_BATCH_SIZE, hp.choice, options=[8, 16, 32])
+
+    # 6. Create parameter selector:
+    selector = SequenceTaggerParamSelector(corpus=data,
+                                           tag_type="ner",
+                                           base_path=Path("figur-recognition", "optimization"),
+                                           max_epochs=10,
+                                           training_runs=3)
+
+    # 7. Start the optimization:
+    selector.optimize(space, max_evals=100)
 
 
 def tag(text: str, model: Model = None):
+    """Tag named entities in a text.
+    """
+    # 1. If no model passe, load it:
     if not model:
         model = Model(URL)
-    document = list()
-    for sentence in document:
-        sentence = Sentence(sentence)
-         prediction = model.predict(sentence)
-         document.append(prediction)
-    return pd.DataFrame(document)
+
+    # 2. Segment text into sentences:
+    sentences = utils.segment_sentences(text)
+
+    # 3. Tag each sentence:
+    for sentence in sentences:
+        yield model.predict(sentence)

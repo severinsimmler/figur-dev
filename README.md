@@ -1,5 +1,7 @@
 # Named entity recognition for literary texts.
-`figur` is a simple framework for recognizing named entities in German literary texts. The high-level API makes it _very_ easy to use:
+`figur` is a simple framework for recognizing named entities in German literary texts.
+
+The high-level API makes it _very_ easy to use:
 
 ```python
 >>> import figur
@@ -8,7 +10,6 @@
 ```
 
 ## Installation
-
 ```
 $ pip install figur
 ```
@@ -18,3 +19,13 @@ The high-level API provides three entry points:
 - `figur.train()` to train a new model.
 - `figur.optimize()` to optimize hyperparameters.
 - `figur.tag()` to tag tokens in a string.
+
+Going one step deeper you could e.g. construct a `Model` object:
+
+```python
+>>> import figur.model
+>>> m = figur.model.Model("best-model.pt")
+>>> m.summary()
+```
+
+Check out the introducing [Jupyter notebook](notebooks/introducing.ipynb).
