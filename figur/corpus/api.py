@@ -1,6 +1,8 @@
 from pathlib import Path
+import random
 
 from . import model
+from . import utils
 
 
 def process(directory: str, suffix: str = ".xml"):
@@ -10,12 +12,22 @@ def process(directory: str, suffix: str = ".xml"):
         yield model.Document(str(filepath))
 
 
-def export(directory: str, suffix: str = ".xml", output: str = "corpus.tsv"):
+def export(directory: str, suffix: str = ".xml", filepath: str = "corpus.tsv"):
     """Export a directory of XML files to training data.
     """
-    with Path(output).open("w", encoding="utf-8") as corpusfile:
+    with Path(filepath).open("w", encoding="utf-8") as file:
         for document in process(directory, suffix):
             for sentence in document.sentences:
                 for n, (token, label) in enumerate(sentence):
                     file.write(f"{n}\t{token}\t{label}\n")
                 file.write("\n")
+            break
+
+
+def split(filepath: str, dev: float = .1, test: float = .1, seed: int = 23):
+    """Split corpus file into train–test–dev data sets.
+    """
+    data = utils.train_dev_test(filepath, dev, test, seed)
+    for name, instances in data.items():
+        with Path(f"{name}.tsv").open("w", encoding="utf-8") as file:
+            file.write("\n\n".join(instances))
