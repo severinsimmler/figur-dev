@@ -4,7 +4,7 @@
 ```python
 >>> import figur
 >>> text = "Der Gärtner entfernte sich eilig, und Eduard folgte bald."
->>> figur.tag(sentence)
+>>> figur.tag(text)
 ```
 
 ## Installation
