@@ -1,13 +1,20 @@
-# Named Entity Recognition (NER) for literary texts
-`figur` is a simple framework for NER in German literary texts.
+# Named entity recognition for literary texts.
+`figur` is a simple framework for recognizing named entities in German literary texts. The high-level API makes it _very_ easy to use:
 
+```python
+>>> import figur
+>>> text = "Der Gärtner entfernte sich eilig, und Eduard folgte bald."
+>>> figur.tag(sentence)
+```
 
 ## Installation
 
+```
+$ pip install figur
+```
 
-## Usage
-```
->>> import figur
->>> sentence = "Der Gärtner entfernte sich eilig, und Eduard folgte bald."
->>> figur.label(sentence)
-```
+## Getting started
+The high-level API provides three entry points:
+- `figur.train()` to train a new model.
+- `figur.optimize()` to optimize hyperparameters.
+- `figur.tag()` to tag tokens in a string.

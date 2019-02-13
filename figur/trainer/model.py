@@ -7,18 +7,6 @@ from torch.optim.adam import Adam
 
 
 @dataclass
-class Corpus(NLPTaskDataFetcher):
-    directory: str
-
-    def fetch(self, train, dev, test):
-        return self.load_column_corpus(self.directory,
-                                       {1: "text", 2: "ner"},
-                                       train_file=train,
-                                       dev_file=dev,
-                                       test_file=test)
-
-
-@dataclass
 class Trainer:
     corpus: TaggedCorpus
     features: list
