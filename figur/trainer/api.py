@@ -6,6 +6,9 @@ The high-level API for this module.
 
 from pathlib import Path
 
+import flair
+import torch
+
 from figur.corpus.model import Corpus
 from . import model
 from . import utils
@@ -20,6 +23,11 @@ def train(directory: str, features: list, metric: str = "micro-average f1-score"
     data = Corpus(directory).fetch("train.tsv",
                                    "dev.tsv",
                                    "test.tsv")
+    if gpu:
+        flair.device = torch.device("gpu")
+    else:
+        flair.device = torch.device("cpu")
+    print(flair.device)
     # Collect features:
     features = list(utils.collect_features(features))
     # Construct trainer object:

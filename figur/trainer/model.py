@@ -25,17 +25,6 @@ class Trainer:
     dropout: float = .0
     word_dropout: float = .05
     locked_dropout: float = .5
-    gpu: bool = False
-
-    def __post_init__(self):
-        import flair
-        import torch
-        print(flair.device)
-        if gpu:
-            flair.device = torch.device("gpu")
-        else:
-            flair.device = torch.device("cpu")
-            print(flair.device)
 
     @property
     def tags(self):
@@ -47,7 +36,6 @@ class Trainer:
 
     @property
     def tagger(self):
-        print(flair.device)
         return SequenceTagger(hidden_size=self.hidden_size,
                               embeddings=self.embeddings,
                               tag_dictionary=self.tags,
