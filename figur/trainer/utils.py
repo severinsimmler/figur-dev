@@ -15,7 +15,7 @@ def collect_features(embeddings):
         if embedding in {"fasttext"}:
             yield WordEmbeddings("de")
         elif embedding in {"bert"}:
-            yield BertEmbeddings("bert-base-multilingual-cased")
+            yield BertEmbeddings("bert-base-multilingual-cased", layers="-1")
         elif embedding in {"flair-forward"}:
             yield FlairEmbeddings("german-forward")
         elif embedding in {"flair-backward"}:
