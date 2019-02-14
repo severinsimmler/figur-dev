@@ -37,7 +37,6 @@ class Trainer:
 
     @property
     def tags(self):
-        print(corpus.train)
         return self.corpus.make_tag_dictionary(tag_type="ner")
 
     @property
