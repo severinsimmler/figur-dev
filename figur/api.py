@@ -37,6 +37,9 @@ def train(directory: str, features: list, optimal: bool = True,
     Returns:
         A model with which you can label a sequence of tokens.
     """
+    root = Path("figur-recognition")
+    if not root.exists():
+        root.mkdir()
     # 1. Export to a single corpus file:
     corpus.export(directory, filepath=Path("figur-recognition", "corpus.tsv"))
 
