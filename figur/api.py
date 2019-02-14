@@ -13,7 +13,7 @@ from flair.hyperparameter.param_selection import SearchSpace, Parameter
 def train(directory: str, features: list, optimal: bool = True,
           metric: str = "micro-average f1-score", learning_rate: float = .1,
           mini_batch_size: int = 32, epochs: int = 10, hidden_size: int = 256,
-          crf: bool = True, rnn: bool = True, rnn_layers: bool = True,
+          crf: bool = True, rnn: bool = True, rnn_layers: int = 1,
           dropout: float = .0, word_dropout: float = .05,
           locked_dropout: float = .5):
     """Train and optimize a model for recognizing named entities in literary texts.
