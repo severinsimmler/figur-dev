@@ -1,3 +1,10 @@
+"""
+figur.corpus.utils
+~~~~~~~~~~~~~~~~~~
+
+This modules provides helper functions for this package.
+"""
+
 import random
 from pathlib import Path
 

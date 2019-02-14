@@ -2,7 +2,7 @@
 figur.corpus.api
 ~~~~~~~~~~~~~~~~
 
-The high-level API for this module.
+The high-level API for this package.
 """
 
 from pathlib import Path
