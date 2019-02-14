@@ -12,6 +12,7 @@ from flair.data import TaggedCorpus
 from flair.trainers import ModelTrainer
 from flair.embeddings import StackedEmbeddings
 from torch.optim.adam import Adam
+from flair.models import SequenceTagger
 import flair
 import torch
 
