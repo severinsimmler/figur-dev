@@ -84,13 +84,13 @@ def optimize(directory):
 
     # 3. Collect embeddings:
     fasttext = list(trainer.utils.collect_features(["fasttext"]))
-    #bert = list(trainer.utils.collect_features(["bert"]))
-    #flair = list(trainer.utils.collect_features(["flair-forward", "flair-backward"]))
+    bert = list(trainer.utils.collect_features(["bert"]))
+    flair = list(trainer.utils.collect_features(["flair-forward", "flair-backward"]))
 
     # 4. Add to search space:
     space.add(Parameter.EMBEDDINGS,
               hp.choice,
-              options=[fasttext])#, bert, flair])
+              options=[fasttext, bert, flair])
 
     # 5. Add other parameter search spaces:
     space.add(Parameter.HIDDEN_SIZE, hp.choice, options=[32, 64, 128])
