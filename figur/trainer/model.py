@@ -15,6 +15,12 @@ from flair.models import SequenceTagger
 import flair
 import torch
 
+def _set_device(gpu):
+    if self.gpu:
+        flair.device = torch.device("gpu")
+    else:
+        flair.device = torch.device("cpu")
+
 
 @dataclass
 class Trainer:
@@ -29,12 +35,6 @@ class Trainer:
     locked_dropout: float = .5
     gpu: bool = False
 
-    def __post_init__(self):
-        if self.gpu:
-            flair.device = torch.device("gpu")
-        else:
-            flair.device = torch.device("cpu")
-
     @property
     def tags(self):
         return self.corpus.make_tag_dictionary(tag_type="ner")
@@ -45,6 +45,7 @@ class Trainer:
 
     @property
     def tagger(self):
+        _set_device(self.gpu)
         return SequenceTagger(hidden_size=self.hidden_size,
                               embeddings=self.embeddings,
                               tag_dictionary=self.tags,
@@ -58,6 +59,7 @@ class Trainer:
 
     @property
     def trainer(self):
+        _set_device(self.gpu)
         return ModelTrainer(self.tagger,
                             self.corpus)
 
