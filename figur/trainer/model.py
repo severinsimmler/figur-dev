@@ -30,10 +30,12 @@ class Trainer:
     def __post_init__(self):
         import flair
         import torch
+        print(flair.device)
         if gpu:
             flair.device = torch.device("gpu")
         else:
             flair.device = torch.device("cpu")
+            print(flair.device)
 
     @property
     def tags(self):
