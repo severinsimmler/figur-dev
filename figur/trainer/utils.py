@@ -9,6 +9,10 @@ from flair.embeddings import WordEmbeddings, BertEmbeddings, FlairEmbeddings
 
 from . import model
 
+import flair
+import torch
+flair.device = torch.device('cpu')
+print(flair.device)
 
 def collect_features(embeddings):
     for embedding in embeddings:

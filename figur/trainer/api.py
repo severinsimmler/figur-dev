@@ -7,9 +7,6 @@ The high-level API for this package.
 
 from pathlib import Path
 
-import flair
-import torch
-
 from figur.corpus.model import Corpus
 from . import model
 from . import utils
