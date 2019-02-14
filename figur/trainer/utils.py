@@ -11,7 +11,7 @@ from . import model
 
 
 def collect_features(embeddings, gpu):
-    model._set_device(gpu)
+    flair.device = torch.device("cpu")
     for embedding in embeddings:
         if embedding in {"fasttext"}:
             yield WordEmbeddings("de")

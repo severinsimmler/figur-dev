@@ -6,6 +6,7 @@ This module provides classes for the model trainer.
 """
 
 from dataclasses import dataclass
+from pathlib import Path
 
 from flair.data_fetcher import NLPTaskDataFetcher
 from flair.data import TaggedCorpus
@@ -37,15 +38,17 @@ class Trainer:
 
     @property
     def tags(self):
+        flair.device = torch.device("cpu")
         return self.corpus.make_tag_dictionary(tag_type="ner")
 
     @property
     def embeddings(self):
+        flair.device = torch.device("cpu")
         return StackedEmbeddings(embeddings=self.features)
 
     @property
     def tagger(self):
-        _set_device(self.gpu)
+        flair.device = torch.device("cpu")
         return SequenceTagger(hidden_size=self.hidden_size,
                               embeddings=self.embeddings,
                               tag_dictionary=self.tags,
@@ -59,7 +62,7 @@ class Trainer:
 
     @property
     def trainer(self):
-        _set_device(self.gpu)
+        flair.device = torch.device("cpu")
         return ModelTrainer(self.tagger,
                             self.corpus)
 
@@ -69,7 +72,7 @@ class Trainer:
         metrics = {"micro-average accuracy", "micro-average f1-score",
                    "macro-average accuracy", "macro-average f1-score"}
         assert metric in metrics
-        _set_device(self.gpu)
+        flair.device = torch.device("cpu")
         self.trainer.train(Path(directory),
                            evaluation_metric=metric,
                            learning_rate=learning_rate,
