@@ -38,17 +38,14 @@ class Trainer:
 
     @property
     def tags(self):
-        flair.device = torch.device("cpu")
         return self.corpus.make_tag_dictionary(tag_type="ner")
 
     @property
     def embeddings(self):
-        flair.device = torch.device("cpu")
         return StackedEmbeddings(embeddings=self.features)
 
     @property
     def tagger(self):
-        flair.device = torch.device("cpu")
         return SequenceTagger(hidden_size=self.hidden_size,
                               embeddings=self.embeddings,
                               tag_dictionary=self.tags,
@@ -62,7 +59,6 @@ class Trainer:
 
     @property
     def trainer(self):
-        flair.device = torch.device("cpu")
         return ModelTrainer(self.tagger,
                             self.corpus)
 
@@ -72,9 +68,7 @@ class Trainer:
         metrics = {"micro-average accuracy", "micro-average f1-score",
                    "macro-average accuracy", "macro-average f1-score"}
         assert metric in metrics
-        flair.device = torch.device("cpu")
         self.trainer.train(Path(directory),
-                           evaluation_metric=metric,
                            learning_rate=learning_rate,
                            mini_batch_size=mini_batch_size,
                            max_epochs=epochs)
