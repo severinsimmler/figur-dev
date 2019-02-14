@@ -1,3 +1,10 @@
+"""
+figur.trainer.utils
+~~~~~~~~~~~~~~~~~~~
+
+This module provides helper functions for this module.
+"""
+
 from flair.embeddings import WordEmbeddings, BertEmbeddings, FlairEmbeddings
 
 

@@ -1,5 +1,6 @@
 import urllib.request
 
+URL = ""
 
 def download_model(url: str):
     # Create folder in home directory:

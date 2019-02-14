@@ -1,3 +1,10 @@
+"""
+figur.corpus.api
+~~~~~~~~~~~~~~~~
+
+The high-level API for this module.
+"""
+
 from pathlib import Path
 
 from . import model
@@ -20,14 +27,13 @@ def export(directory: str, suffix: str = ".xml", filepath: str = "corpus.tsv"):
                 for n, (token, label) in enumerate(sentence):
                     file.write(f"{n}\t{token}\t{label}\n")
                 file.write("\n")
-            break
 
 
 def split(filepath: str, dev: float = .1, test: float = .1, seed: int = 23):
     """Split corpus file into train–test–dev data sets.
     """
     data = utils.train_dev_test(filepath, dev, test, seed)
-    for name, instances in data.it"ems():
+    for name, instances in data.items():
         with Path(f"{name}.tsv").open("w", encoding="utf-8") as file:
             file.write("\n\n".join(instances))
 

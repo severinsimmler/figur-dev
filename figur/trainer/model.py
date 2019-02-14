@@ -1,3 +1,10 @@
+"""
+figur.trainer.model
+~~~~~~~~~~~~~~~~~~~
+
+This module provides classes for the model trainer.
+"""
+
 from dataclasses import dataclass
 
 from flair.data_fetcher import NLPTaskDataFetcher
@@ -25,7 +32,7 @@ class Trainer:
 
     @property
     def embeddings(self):
-        return StackedEmbeddings(embeddings=elf.features)
+        return StackedEmbeddings(embeddings=self.features)
 
     @property
     def tagger(self):

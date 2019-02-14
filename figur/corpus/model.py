@@ -1,9 +1,17 @@
+"""
+figur.corpus.model
+~~~~~~~~~~~~~~~~~~
+
+This module provides model classes for a document and a corpus.
+"""
+
 from dataclasses import dataclass
 from pathlib import Path
 import logging
 
 import lxml.etree
 import xmltodict
+from flair.data_fetcher import NLPTaskDataFetcher
 
 
 @dataclass

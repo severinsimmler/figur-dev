@@ -1,13 +1,14 @@
-from . import corpus
-from . import trainer
-from .model import Model, URL
+from figur import corpus
+from figur import trainer
+from figur.model.api import Model
+from figur.model.utils import URL
 
 from hyperopt import hp
 from flair.hyperparameter.param_selection import SearchSpace, Parameter
 
 
 
-def train(directory: str, optimal: bool = True, features: list,
+def train(directory: str, features: list, optimal: bool = True,
           metric: str = "micro-average f1-score", learning_rate: float = .1,
           mini_batch_size: int = 32, epochs: int = 10, hidden_size: int = 256,
           crf: bool = True, rnn: bool = True, rnn_layers: bool = True,
