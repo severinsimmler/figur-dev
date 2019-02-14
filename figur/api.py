@@ -1,3 +1,5 @@
+from pathlib import Path
+
 from figur import corpus
 from figur import trainer
 from figur.model.api import Model
