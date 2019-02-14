@@ -9,6 +9,7 @@ from dataclasses import dataclass
 
 from flair.data_fetcher import NLPTaskDataFetcher
 from flair.data import TaggedCorpus
+from flair.trainers import ModelTrainer
 from flair.embeddings import StackedEmbeddings
 from torch.optim.adam import Adam
 import flair
