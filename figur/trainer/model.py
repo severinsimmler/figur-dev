@@ -11,7 +11,6 @@ from flair.data_fetcher import NLPTaskDataFetcher
 from flair.data import TaggedCorpus
 from flair.trainers import ModelTrainer
 from flair.embeddings import StackedEmbeddings
-from torch.optim.adam import Adam
 from flair.models import SequenceTagger
 import flair
 import torch
@@ -28,6 +27,13 @@ class Trainer:
     dropout: float = .0
     word_dropout: float = .05
     locked_dropout: float = .5
+    gpu: bool = False
+
+    def __post_init__(self):
+        if self.gpu:
+            flair.device = torch.device("gpu")
+        else:
+            flair.device = torch.device("cpu")
 
     @property
     def tags(self):
@@ -39,7 +45,6 @@ class Trainer:
 
     @property
     def tagger(self):
-        flair.device = torch.device("cpu")
         return SequenceTagger(hidden_size=self.hidden_size,
                               embeddings=self.embeddings,
                               tag_dictionary=self.tags,
@@ -53,11 +58,8 @@ class Trainer:
 
     @property
     def trainer(self):
-        flair.device = torch.device("cpu")
         return ModelTrainer(self.tagger,
-                            self.corpus,
-                            optimizer=Adam,
-                            weight_decay=1e-4)
+                            self.corpus)
 
     def train(self, directory: str, metric: str = "micro-average f1-score",
               learning_rate: float = .1, mini_batch_size: int = 32,

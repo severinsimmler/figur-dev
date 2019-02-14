@@ -10,11 +10,13 @@ from flair.embeddings import WordEmbeddings, BertEmbeddings, FlairEmbeddings
 
 
 def collect_features(embeddings, gpu):
-    flair.device = torch.device("cpu")
-    print(flair.device)
-    mapping = {"fasttext": WordEmbeddings("de"),
-               "bert": BertEmbeddings("bert-base-multilingual-cased")}#,
-               #"flair-forward": FlairEmbeddings("german-forward"),
-               #"flair-backward": FlairEmbeddings("german-backward")}
+    if gpu:
+        flair.device = torch.device("gpu")
+    else:
+        flair.device = torch.device("cpu")
+    values = {"fasttext": "de",
+              "bert": "bert-base-multilingual-cased"}
+    mapping = {"fasttext": WordEmbeddings,
+               "bert": BertEmbeddings}
     for embedding in embeddings:
-        yield mapping[embedding]
+        yield mapping[embedding](values[embedding])
