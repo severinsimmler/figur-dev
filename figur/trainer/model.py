@@ -11,7 +11,8 @@ from flair.data_fetcher import NLPTaskDataFetcher
 from flair.data import TaggedCorpus
 from flair.embeddings import StackedEmbeddings
 from torch.optim.adam import Adam
-from torch import device
+import flair
+import torch
 
 
 @dataclass
@@ -36,6 +37,7 @@ class Trainer:
 
     @property
     def tagger(self):
+        flair.device = torch.device("cpu")
         return SequenceTagger(hidden_size=self.hidden_size,
                               embeddings=self.embeddings,
                               tag_dictionary=self.tags,
@@ -49,6 +51,7 @@ class Trainer:
 
     @property
     def trainer(self):
+        flair.device = torch.device("cpu")
         return ModelTrainer(self.tagger,
                             self.corpus,
                             optimizer=Adam,
