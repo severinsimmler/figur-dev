@@ -11,6 +11,7 @@ from flair.data_fetcher import NLPTaskDataFetcher
 from flair.data import TaggedCorpus
 from flair.embeddings import StackedEmbeddings
 from torch.optim.adam import Adam
+from torch import device
 
 
 @dataclass
@@ -24,7 +25,13 @@ class Trainer:
     dropout: float = .0
     word_dropout: float = .05
     locked_dropout: float = .5
+    gpu: bool = False
 
+    def __post_init__(self):
+        if gpu:
+            import flair
+            import torch
+            flair.device = torch.device("cpu")
 
     @property
     def tags(self):

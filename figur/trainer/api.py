@@ -6,14 +6,14 @@ The high-level API for this module.
 
 from pathlib import Path
 
-from figur.corpus.model import Corpus 
+from figur.corpus.model import Corpus
 from . import model
 from . import utils
 
 
 def train(directory: str, features: list, metric: str = "micro-average f1-score",
           learning_rate: float = .1, mini_batch_size: int = 32,
-          epochs: int = 10, **kwargs):
+          epochs: int = 10, gpu: bool = False, **kwargs):
     """Train a model for named entity recognition.
     """
     # Construct corpus object:
@@ -23,7 +23,7 @@ def train(directory: str, features: list, metric: str = "micro-average f1-score"
     # Collect features:
     features = list(utils.collect_features(features))
     # Construct trainer object:
-    trainer = model.Trainer(data, features, **kwargs)
+    trainer = model.Trainer(data, features, gpu, **kwargs)
     # Train model:
     trainer.train(directory,
                   metric=metric,
