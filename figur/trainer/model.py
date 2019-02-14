@@ -16,7 +16,7 @@ import flair
 import torch
 
 def _set_device(gpu):
-    if self.gpu:
+    if gpu:
         flair.device = torch.device("gpu")
     else:
         flair.device = torch.device("cpu")
