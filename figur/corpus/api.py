@@ -34,7 +34,7 @@ def split(filepath: str, dev: float = .1, test: float = .1, seed: int = 23):
     """
     data = utils.train_dev_test(filepath, dev, test, seed)
     for name, instances in data.items():
-        with Path(f"{name}.tsv").open("w", encoding="utf-8") as file:
+        with Path(filepath.parent, f"{name}.tsv").open("w", encoding="utf-8") as file:
             file.write("\n\n".join(instances))
 
 

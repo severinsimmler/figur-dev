@@ -29,7 +29,7 @@ def train(directory: str, features: list, metric: str = "micro-average f1-score"
     # Construct trainer object:
     trainer = model.Trainer(data, features, **kwargs)
     # Train model:
-    trainer.train(directory,
+    trainer.train(Path(directory, "model"),
                   metric=metric,
                   learning_rate=learning_rate,
                   mini_batch_size=mini_batch_size,

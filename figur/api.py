@@ -38,10 +38,10 @@ def train(directory: str, features: list, optimal: bool = True,
         A model with which you can label a sequence of tokens.
     """
     # 1. Export to a single corpus file:
-    corpus.export(directory, filepath="corpus.tsv")
+    corpus.export(directory, filepath=Path("figur-recognition", "corpus.tsv"))
 
     # 2. Split into train–dev–test data sets:
-    corpus.split("corpus.tsv")
+    corpus.split(Path("figur-recognition", "corpus.tsv"))
 
     # Optional: Hyperparameter optimization:
     if optimal:
@@ -49,7 +49,7 @@ def train(directory: str, features: list, optimal: bool = True,
         # TODO: parse output file and set optimal parameters
 
     # 3. Train model:
-    trainer.train(Path("figur-recognition", "model"),
+    trainer.train(Path("figur-recognition"),
                   features=features,
                   metric=metric,
                   learning_rate=learning_rate,
