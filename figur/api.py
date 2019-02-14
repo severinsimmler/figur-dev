@@ -6,8 +6,7 @@ from figur.model.api import Model
 from figur.model.utils import URL
 
 from hyperopt import hp
-from flair.hyperparameter.param_selection import SearchSpace, Parameter
-
+from flair.hyperparameter.param_selection import SearchSpace, Parameter, SequenceTaggerParamSelector
 
 
 def train(directory: str, features: list, optimal: bool = True,
@@ -75,7 +74,10 @@ def optimize(directory):
     """Hyperparameter optimization.
     """
     # 1. Load corpus:
-    data = corpus.load(directory)
+    train = Path(directory, "train.tsv")
+    dev = Path(directory, "dev.tsv")
+    test = Path(directory, "test.tsv")
+    data = corpus.load(train, dev, test)
 
     # 2. Define search space:
     space = SearchSpace()
@@ -101,7 +103,7 @@ def optimize(directory):
     selector = SequenceTaggerParamSelector(corpus=data,
                                            tag_type="ner",
                                            base_path=Path("figur-recognition", "optimization"),
-                                           max_epochs=10,
+                                           max_epochs=3,
                                            training_runs=3)
 
     # 7. Start the optimization:
