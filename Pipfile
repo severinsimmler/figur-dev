@@ -8,7 +8,7 @@ verify_ssl = true
 [packages]
 xmltodict = "*"
 lxml = "*"
-flair = "*"
+flair = {git = "https://github.com/zalandoresearch/flair.git"}
 
 [requires]
 python_version = "3.7"
