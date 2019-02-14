@@ -14,9 +14,8 @@ def collect_features(embeddings, gpu):
         flair.device = torch.device("gpu")
     else:
         flair.device = torch.device("cpu")
-    values = {"fasttext": "de",
-              "bert": "bert-base-multilingual-cased"}
-    mapping = {"fasttext": WordEmbeddings,
-               "bert": BertEmbeddings}
     for embedding in embeddings:
-        yield mapping[embedding](values[embedding])
+        if embedding in {"fasttext"}:
+            yield WordEmbeddings("de")
+        elif embedding in {"bert"}:
+            yield BertEmbeddings("bert-base-multilingual-cased")

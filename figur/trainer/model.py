@@ -37,6 +37,7 @@ class Trainer:
 
     @property
     def tags(self):
+        print(corpus.train)
         return self.corpus.make_tag_dictionary(tag_type="ner")
 
     @property
@@ -49,12 +50,12 @@ class Trainer:
                               embeddings=self.embeddings,
                               tag_dictionary=self.tags,
                               tag_type="ner",
-                              use_crf=self.crf,
-                              use_rnn=self.rnn,
-                              rnn_layers=self.rnn_layers,
-                              dropout=self.dropout,
-                              word_dropout=self.word_dropout,
-                              locked_dropout=self.locked_dropout)
+                              use_crf=self.crf)#,
+                              #use_rnn=self.rnn,
+                              #rnn_layers=self.rnn_layers,
+                              #dropout=self.dropout,
+                              #word_dropout=self.word_dropout,
+                              #locked_dropout=self.locked_dropout)
 
     @property
     def trainer(self):
