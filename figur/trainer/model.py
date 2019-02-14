@@ -69,6 +69,7 @@ class Trainer:
         metrics = {"micro-average accuracy", "micro-average f1-score",
                    "macro-average accuracy", "macro-average f1-score"}
         assert metric in metrics
+        _set_device(self.gpu)
         self.trainer.train(Path(directory),
                            evaluation_metric=metric,
                            learning_rate=learning_rate,
