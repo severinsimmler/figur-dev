@@ -38,7 +38,6 @@ class Trainer:
 
     @property
     def tagger(self):
-        print(flair.device)
         return SequenceTagger(hidden_size=self.hidden_size,
                               embeddings=self.embeddings,
                               tag_dictionary=self.tags,
