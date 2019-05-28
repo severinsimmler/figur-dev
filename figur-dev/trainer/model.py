@@ -15,9 +15,6 @@ from flair.embeddings import StackedEmbeddings
 from flair.models import SequenceTagger
 from flair.training_utils import EvaluationMetric
 
-import flair
-import torch
-flair.device = torch.device('cpu')
 
 @dataclass
 class Trainer:
@@ -55,7 +52,6 @@ class Trainer:
 
     @property
     def trainer(self):
-        print(flair.device)
         return ModelTrainer(self.tagger,
                             self.corpus)
 
@@ -67,7 +63,6 @@ class Trainer:
                    "macro-average accuracy": EvaluationMetric.MACRO_ACCURACY,
                    "macro-average f1-score": EvaluationMetric.MACRO_F1_SCORE}
         assert metric in metrics
-        print(flair.device)
         self.trainer.train(Path(directory),
                            evaluation_metric=metrics[metric],
                            learning_rate=learning_rate,
